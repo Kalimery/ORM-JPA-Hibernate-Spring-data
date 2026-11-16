@@ -1,58 +1,63 @@
-Product Management API
-Activité Pratique N°2 — ORM JPA, Hibernate & Spring Data
-Project Information
-Information	Details
-Course	ORM JPA, Hibernate & Spring Data
-Practical Work	Activité Pratique N°2
-Instructor	Mohamed YOUSSFI
-Student	[Your Full Name]
-Institution	Mundiapolis University
-Development Environment	IntelliJ IDEA Ultimate
-Project Type	RESTful Web Application
-1. Project Overview
 
-This project focuses on the development of a Product Management REST API using the Spring Boot ecosystem.
+# Product Management API
+## Activité Pratique N°2 — ORM JPA, Hibernate & Spring Data
 
-The main objective is to implement object-relational mapping (ORM) with JPA and Hibernate, integrate a relational database using H2, and manage data persistence through Spring Data JPA.
+---
 
-The application provides a set of RESTful endpoints that allow clients to perform the fundamental CRUD operations (Create, Read, Update, Delete) on product records.
+## Project Information
 
-2. Technologies & Tools
+| Information | Details |
+|---|---|
+| Course | ORM JPA, Hibernate & Spring Data |
+| Practical Work | Activité Pratique N°2 |
+| Instructor | Mohamed YOUSSFI |
+| Student | Your Full Name |
+| Institution | Mundiapolis University |
+| Language | Java 21 |
+| Framework | Spring Boot |
 
-The project is developed using the following technologies:
+---
 
-Technology	Purpose
-Java 21	Core programming language
-Spring Boot	Application framework
-Spring Web	REST API development
-Spring Data JPA	Data persistence and repository management
-Hibernate	ORM implementation
-H2 Database	Relational database management
-Lombok	Reduction of boilerplate code
-Swagger / OpenAPI	API documentation and testing
-Maven	Dependency management and project build
-IntelliJ IDEA Ultimate	Integrated development environment
-3. Project Architecture
+## 1. Project Overview
 
-The application follows a layered architecture that separates data representation, persistence operations, and HTTP request handling.
+This project consists of developing a Product Management REST API using the Spring Boot ecosystem.
 
-text
+The main objective is to understand and implement Object-Relational Mapping (ORM) using JPA and Hibernate, integrate an H2 relational database, and manage data persistence through Spring Data JPA.
+
+The application provides RESTful endpoints to perform CRUD operations (Create, Read, Update, Delete) on product records.
+
+## 2. Technologies & Tools
+
+| Technology | Purpose |
+|---|---|
+| Java 21 | Programming language |
+| Spring Boot | Application framework |
+| Spring Web | REST API development |
+| Spring Data JPA | Data persistence |
+| Hibernate | ORM implementation |
+| H2 Database | Relational database |
+| Lombok | Boilerplate code reduction |
+| Swagger / OpenAPI | API documentation and testing |
+| Maven | Dependency management |
+| IntelliJ IDEA Ultimate | Development environment |
+
+## 3. Project Architecture
+
+The application follows a layered architecture:
+
+```text
 demobdccspringdata/
 │
 ├── src/
 │   └── main/
 │       ├── java/
 │       │   └── me/mundiapolis/demobdccspringdata/
-│       │       │
 │       │       ├── entities/
 │       │       │   └── Product.java
-│       │       │
 │       │       ├── repository/
 │       │       │   └── ProductRepository.java
-│       │       │
 │       │       ├── web/
 │       │       │   └── ProductRestController.java
-│       │       │
 │       │       └── DemoBdccSpringDataApplication.java
 │       │
 │       └── resources/
@@ -60,171 +65,182 @@ demobdccspringdata/
 │
 ├── pom.xml
 └── README.md
+```
 
-Architectural Components
-Entity Layer: Defines the persistent domain model.
-Repository Layer: Handles database access through Spring Data JPA.
-Web Layer: Exposes REST endpoints and processes HTTP requests.
-Configuration Layer: Defines database and application settings.
-4. Domain Model — Product
+### Main Components
 
-The Product entity represents the main business object of the application.
+- **Entity Layer:** Defines the Product entity.
+- **Repository Layer:** Handles database operations using Spring Data JPA.
+- **Web Layer:** Exposes REST API endpoints.
+- **Configuration:** Manages database and application settings.
 
-It is mapped to a relational database table using JPA annotations.
+## 4. Product Entity
 
-Entity Attributes
-Attribute	Java Type	Description
-id	Long	Unique product identifier
-name	String	Product name
-price	double	Product price
-quantity	int	Available product quantity
-Persistence Annotations
-@Entity: Marks the class as a JPA entity.
-@Id: Defines the primary key.
-@GeneratedValue: Configures automatic identifier generation.
+The `Product` entity represents a product stored in the database.
 
-Lombok annotations are used to simplify the implementation by generating getters, setters, and constructors.
+### Attributes
 
-5. Database Configuration
+| Attribute | Type | Description |
+|---|---|---|
+| id | Long | Unique product identifier |
+| name | String | Product name |
+| price | double | Product price |
+| quantity | int | Product quantity |
 
-The application uses H2, an embedded relational database, for data persistence.
+### JPA Annotations
+
+- `@Entity`: Maps the Java class to a database table.
+- `@Id`: Defines the primary key.
+- `@GeneratedValue`: Automatically generates the identifier.
+
+Lombok is used to generate getters, setters, and constructors.
+
+## 5. Database Configuration
+
+The application uses the H2 in-memory relational database.
 
 Database configuration is defined in:
 
-src/main/resources/application.properties
+`src/main/resources/application.properties`
 
-Hibernate manages the database schema based on the JPA entity definitions.
+Hibernate automatically manages the database schema based on the JPA entity definitions.
 
-The H2 console can be accessed through:
+H2 Console:
 
-http://localhost:8084/h2-console
+`http://localhost:8084/h2-console`
 
-Note: The database configuration determines whether data is stored in memory or persisted to disk.
+## 6. Spring Data JPA Repository
 
-6. Data Access Layer — Spring Data JPA
+The `ProductRepository` interface extends:
 
-The ProductRepository interface extends:
+`JpaRepository<Product, Long>`
 
-JpaRepository<Product, Long>
+It provides built-in database operations without requiring manual SQL queries.
 
-This provides built-in persistence operations without requiring manual SQL queries.
+### Repository Methods
 
-Main Repository Operations
-Method	Function
-save()	Inserts or updates a product
-findAll()	Retrieves all products
-findById()	Retrieves a product by its identifier
-findByNameContains()	Searches products by name
-deleteById()	Deletes a product by its identifier
+| Method | Description |
+|---|---|
+| `save()` | Insert or update a product |
+| `findAll()` | Retrieve all products |
+| `findById()` | Find a product by ID |
+| `findByNameContains()` | Search products by name |
+| `deleteById()` | Delete a product by ID |
 
-Spring Data JPA also supports derived query methods, allowing database queries to be generated from method names.
+## 7. REST API — CRUD Operations
 
-7. REST API — CRUD Operations
+The `ProductRestController` exposes the following endpoints:
 
-The ProductRestController exposes HTTP endpoints for interacting with product resources.
+| HTTP Method | Endpoint | Description |
+|---|---|---|
+| GET | `/products` | Retrieve all products |
+| GET | `/products/{id}` | Retrieve a product by ID |
+| GET | `/find/products?kw={keyword}` | Search products |
+| POST | `/products` | Add a new product |
+| PUT | `/products/{id}` | Update a product |
+| DELETE | `/products/{id}` | Delete a product |
 
-API Endpoint Documentation
-HTTP Method	Endpoint	Description
-GET	/products	Retrieve all products
-GET	/products/{id}	Retrieve a product by ID
-GET	/find/products?kw={keyword}	Search products by name
-POST	/products	Create a new product
-PUT	/products/{id}	Update an existing product
-DELETE	/products/{id}	Delete a product
-Example Request — Create a Product
+### Example: Add a Product
 
-HTTP Method: POST
+**Method:** POST
 
-Endpoint: /products
+**Endpoint:** `/products`
 
 Request Body:
 
-json
+```json
 {
   "name": "Laptop",
   "price": 7500.00,
   "quantity": 10
 }
+```
 
-Example Request — Retrieve All Products
+### Example: Retrieve All Products
 
-HTTP Method: GET
+**Method:** GET
 
-Endpoint: /products
+**Endpoint:** `/products`
 
-Example Request — Search Products
+### Example: Retrieve a Product
 
-HTTP Method: GET
+**Method:** GET
 
-Endpoint: /find/products?kw=laptop
+**Endpoint:** `/products/1`
 
-Example Request — Update a Product
+### Example: Search Products
 
-HTTP Method: PUT
+**Method:** GET
 
-Endpoint: /products/1
+**Endpoint:** `/find/products?kw=laptop`
+
+### Example: Update a Product
+
+**Method:** PUT
+
+**Endpoint:** `/products/1`
 
 Request Body:
 
-json
+```json
 {
   "name": "Updated Laptop",
   "price": 8000.00,
   "quantity": 15
 }
+```
 
-Example Request — Delete a Product
+### Example: Delete a Product
 
-HTTP Method: DELETE
+**Method:** DELETE
 
-Endpoint: /products/1
+**Endpoint:** `/products/1`
 
-8. API Documentation & Testing
+## 8. API Documentation & Testing
 
-The project integrates Swagger UI through the Springdoc OpenAPI library.
+Swagger UI is integrated using the Springdoc OpenAPI library.
 
-Swagger provides an interactive interface for:
+It provides an interactive interface to:
 
-Discovering available REST endpoints.
-Inspecting HTTP methods and request parameters.
-Submitting JSON request bodies.
-Executing API operations.
-Inspecting HTTP responses.
-Accessing Swagger UI
+- Visualize available REST endpoints.
+- Inspect HTTP methods and parameters.
+- Submit JSON request bodies.
+- Execute API requests.
+- View server responses.
 
-Start the Spring Boot application and navigate to:
+### Swagger UI
 
-http://localhost:8084/swagger-ui/index.html
+`http://localhost:8084/swagger-ui/index.html`
 
-OpenAPI Specification
+### OpenAPI Specification
 
-The generated API specification is available at:
+`http://localhost:8084/v3/api-docs`
 
-http://localhost:8084/v3/api-docs
+## 9. Learning Outcomes
 
-9. Learning Outcomes
+This practical assignment provided hands-on experience with:
 
-Through this practical assignment, the following concepts were explored and implemented:
+1. Understanding Object-Relational Mapping (ORM).
+2. Creating and configuring JPA entities.
+3. Working with Hibernate as a JPA implementation.
+4. Configuring an H2 relational database.
+5. Implementing Spring Data JPA repositories.
+6. Developing REST APIs using Spring Web.
+7. Performing CRUD operations.
+8. Documenting and testing APIs using Swagger.
 
-Understanding the principles of Object-Relational Mapping (ORM).
-Creating and configuring JPA entities.
-Understanding the relationship between JPA and Hibernate.
-Configuring an H2 relational database.
-Implementing repository interfaces with Spring Data JPA.
-Developing RESTful endpoints using Spring Web.
-Implementing CRUD operations for persistent entities.
-Testing and documenting REST APIs using Swagger/OpenAPI.
-10. Conclusion
+## 10. Conclusion
 
-This practical assignment provided an opportunity to implement a complete data persistence workflow using the Spring Boot ecosystem.
+This practical assignment provided an opportunity to develop a RESTful backend application using Spring Boot, JPA, Hibernate, and Spring Data.
 
-The application demonstrates how JPA, Hibernate, and Spring Data JPA simplify database interaction through object-relational mapping and repository abstractions.
+It demonstrated how ORM simplifies database interactions, how Spring Data JPA facilitates data persistence, and how REST APIs expose application functionality.
 
-Furthermore, the implementation of RESTful endpoints illustrates how backend services can expose structured data operations to external clients.
+The integration of H2 and Swagger provides an efficient environment for database management, API documentation, and functional testing.
 
-The integration of H2 and Swagger/OpenAPI provides a convenient environment for database experimentation, API documentation, and functional testing.
+---
 
+## Academic Reference
 
-Assignment: Activité Pratique N°2 — ORM JPA Hibernate Spring Data
-
-Reference Video: https://www.youtube.com/watch?v=UXs39oVoaSs
+- **Instructor:** Mohamed YOUSSFI
+- **Assignment:** Activité Pratique N°2 — ORM JPA Hibernate Spring Data
+- **Reference Video:** https://www.youtube.com/watch?v=UXs39oVoaSs
